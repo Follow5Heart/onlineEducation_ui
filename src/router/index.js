@@ -33,10 +33,11 @@ import Layout from '@/layout'
 export const constantRoutes = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
+
   {
     path: '/',
     component: Layout,
-    redirect: '/login',
+    redirect: '/home',
     children: [
 
       {
@@ -47,9 +48,9 @@ export const constantRoutes = [
       }]
   },
 
-  // 添加自己的路由
+  // 教师管理
   {
-    path: '/Layout',
+    path: '/teacher',
     component: Layout,
     redirect: 'teacher/list',
     name: 'Teahcer',
@@ -86,34 +87,53 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/subject/list',
     name: 'Subject',
-    meta: { title: '课程管理分类' },
+    meta: { title: '课程管理分类', icon: 'subject' },
     children: [
       {
         path: 'list',
         name: 'SubjectList',
         component: () => import('@/views/subject/list'),
-        meta: { title: '课程分类列表' }
+        meta: { title: '课程分类列表', icon: 'subject-list' }
       },
       {
         path: 'import',
         name: 'SubjectImport',
         component: () => import('@/views/subject/import'),
-        meta: { title: '导入课程分类' }
+        meta: { title: '导入课程分类', icon: 'subject-import' }
       }
     ]
   },
-  // {
-  //   path: '/login',
-  //   component: () => import('@/views/login/index'),
-  //   hidden: true
-  // },
-
-  // {
-  //   path: '/404',
-  //   component: () => import('@/views/404'),
-  //   hidden: true
-  // },
-
+  // 课程管理
+  {
+    path: '/course',
+    component: Layout,
+    redirect: '/course/list',
+    name: 'Course',
+    meta: {
+      title: '课程管理', icon: 'course'
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'CourseList',
+        component: () => import('@/views/course/list'),
+        meta: { title: '课程列表', icon: 'course-list' }
+      },
+      {
+        path: 'info',
+        name: 'CourseInfo',
+        component: () => import('@/views/course/form'),
+        meta: { title: '发布课程', icon: 'course-form' }
+      },
+      {
+        path: 'info/:id',
+        name: 'CourseInfoEdit',
+        component: () => import('@/views/course/form'),
+        meta: { title: '编辑课程' },
+        hidden: true
+      }
+    ]
+  },
   {
     path: '/example',
     component: Layout,
