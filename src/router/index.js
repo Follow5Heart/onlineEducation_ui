@@ -31,20 +31,12 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
-  {
-    path: '/',
-    component: () => import('@/views/login/index')
-    // redirect: '/login'
-    // children: [{
-    //   path: 'home',
-    //   name: 'Home',
-    //   component: () => import('@/views/home/index'),
-    //   meta: { title: '首页', icon: 'el-icon-s-help' }
-    // }]
-  },
+  { path: '/login', component: () => import('@/views/login/index'), hidden: true },
+  { path: '/404', component: () => import('@/views/404'), hidden: true },
   {
     path: '/',
     component: Layout,
+    redirect: '/login',
     children: [
 
       {
@@ -110,17 +102,17 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true
-  },
+  // {
+  //   path: '/login',
+  //   component: () => import('@/views/login/index'),
+  //   hidden: true
+  // },
 
-  {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
+  // {
+  //   path: '/404',
+  //   component: () => import('@/views/404'),
+  //   hidden: true
+  // },
 
   {
     path: '/example',
