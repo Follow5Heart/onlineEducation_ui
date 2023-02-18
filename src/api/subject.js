@@ -6,3 +6,11 @@ export function getNextedTreeList() {
     method: 'get'
   })
 }
+
+export function getCurrentSubjectList(parentId) {
+  return request({
+    url: '/admin/edu/subject/getCurrentSubjectList',
+    method: 'get',
+    params: parentId
+  })
+}

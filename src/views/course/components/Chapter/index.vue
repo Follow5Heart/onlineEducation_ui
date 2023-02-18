@@ -24,6 +24,8 @@ export default {
   methods: {
     backMethod() {
       this.$parent.active = 0
+
+      // 通过课程id，调用info.vue中的方法，进行回显
     },
 
     nextMethod() {

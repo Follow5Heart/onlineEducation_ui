@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       active: 0,
-      courseId: ''
+      courseId: null
     }
   }
 
