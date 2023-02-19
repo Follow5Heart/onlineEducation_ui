@@ -16,3 +16,10 @@ export function getCourseInfo(courseId) {
   })
 }
 
+export function updateCourseInfo(courseInfo) {
+  return request({
+    url: '/admin/edu/course/updateCourse',
+    method: 'put',
+    data: courseInfo
+  })
+}

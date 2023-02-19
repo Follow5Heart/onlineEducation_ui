@@ -89,11 +89,10 @@
 </template>
 
 <script>
-import { saveCourseInfo, getCourseInfo } from '@/api/course'
+import { saveCourseInfo, getCourseInfo, updateCourseInfo } from '@/api/course'
 import { list } from '@/api/teacher'
 import { getCurrentSubjectList } from '@/api/subject'
 import Tinymce from '@/components/Tinymce'
-import { thisExpression } from '@babel/types'
 
 export default {
   name: 'Info',
@@ -147,8 +146,13 @@ export default {
       // 保存按钮禁用
       this.saveBtnDisabled = true
 
-      // 把当前信息发送到后端进行保存
-      this.savaCourse()
+      // 判断是否是新增课程还是更新课程
+      if (this.$parent.courseId) {
+        this.updateCourse()
+      } else {
+        // 把当前信息发送到后端进行保存
+        this.savaCourse()
+      }
     },
     // 保存课程基本信息
     savaCourse() {
@@ -166,7 +170,15 @@ export default {
     },
     // 更新课程基本信息
     updateCourse() {
-
+      updateCourseInfo(this.courseInfo).then(response => {
+        if (response.code === 20000) {
+          this.$parent.active = 1 // 使用this.$parent 访问父组件的数据
+          this.$message({
+            message: '更新成功',
+            type: 'success'
+          })
+        }
+      })
     },
     // 获取讲师列表
     getTeacherList() {
