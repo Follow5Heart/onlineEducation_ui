@@ -105,7 +105,7 @@
       />
       <el-table-column label="操作" width="180" align="center">
         <template slot-scope="scope">
-          <router-link :to="'/Layout/edit/'+scope.row.id">
+          <router-link :to="'/teacher/edit/'+scope.row.id">
             <el-button
               size="mini"
               @click="handleEdit(scope.$index, scope.row)"

@@ -56,7 +56,7 @@
       <el-form-item align="center">
         <el-button v-if="saveButtonDisabled" type="primary" @click="saveTeacher">保存</el-button>
         <el-button v-else type="primary" @click="update">更新</el-button>
-        <router-link :to="'/Layout/list'">
+        <router-link :to="'/teacher/list'">
           <el-button type="primary" style="margin:0 0 0 20px">返回</el-button>
         </router-link>
 
