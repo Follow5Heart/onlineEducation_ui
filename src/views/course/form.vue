@@ -25,6 +25,7 @@
 import Info from '@/views/course/components/info.vue'
 import Chapter from '@/views/course/components/Chapter/index.vue'
 import Publish from '@/views/course/components/publish.vue'
+import { create } from 'domain'
 export default {
   components: {
     Info,
@@ -35,6 +36,16 @@ export default {
     return {
       active: 0,
       courseId: null
+    }
+  },
+  created() {
+    if (this.$route.params.id) {
+      this.fetchDataById(this.$route.params.id)
+    }
+  },
+  methods: {
+    fetchDataById() {
+
     }
   }
 

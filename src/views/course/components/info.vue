@@ -109,7 +109,8 @@ export default {
         subjectParentId: '',
         cover: '',
         description: '',
-        title: ''
+        title: '',
+        fileInfo: ''
       },
 
       teacherList: [], // 讲师列表
@@ -128,7 +129,12 @@ export default {
       }
     }
   },
-  mounted() {
+  created() {
+    // 判断路由是有修改进来的
+    if (this.$route.name === 'CourseInfoEdit') {
+      this.$parent.courseId = this.$route.params.id
+    }
+
     // 判断父组件的课程id是否存在，如果存在，回显数据
     if (this.$parent.courseId) {
       this.echoCourseInfo(this.$parent.courseId)
@@ -215,6 +221,7 @@ export default {
       if (res.success) {
         // console.log(res)
         this.courseInfo.cover = res.data.fileInfo.url
+        this.courseInfo.fileInfo = JSON.stringify(res.data.fileInfo)
         // 强制重新渲染
         this.$forceUpdate()
       } else {

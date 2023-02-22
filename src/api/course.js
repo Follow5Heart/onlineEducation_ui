@@ -23,3 +23,11 @@ export function updateCourseInfo(courseInfo) {
     data: courseInfo
   })
 }
+
+export function getCoursePageList(page, limit, searchObj) {
+  return request({
+    url: `/admin/edu/course/list/${page}/${limit}`,
+    method: 'get',
+    params: searchObj
+  })
+}
