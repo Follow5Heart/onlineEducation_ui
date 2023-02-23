@@ -31,3 +31,11 @@ export function getCoursePageList(page, limit, searchObj) {
     params: searchObj
   })
 }
+
+export function removeCourseById(courseId) {
+  return request({
+    url: '/admin/edu/course/removeCourse',
+    method: 'delete',
+    params: courseId
+  })
+}

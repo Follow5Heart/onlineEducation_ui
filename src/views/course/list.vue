@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import { getCoursePageList } from '@/api/course'
+import { getCoursePageList, removeCourseById } from '@/api/course'
 import { list } from '@/api/teacher'
 import { getCurrentSubjectList } from '@/api/subject'
 
@@ -234,7 +234,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        return courseApi.removeById(id)
+        return removeCourseById({ courseId: id })
       }).then(response => {
         this.fetchData()
         this.$message.success(response.message)
