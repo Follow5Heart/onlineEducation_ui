@@ -39,3 +39,17 @@ export function removeCourseById(courseId) {
     params: courseId
   })
 }
+
+export function getPublishCourse(courseId) {
+  return request({
+    url: `/admin/edu/course/getCoursePublish/${courseId}`,
+    method: 'get'
+  })
+}
+
+export function publishCourseById(courseId) {
+  return request({
+    url: `/admin/edu/course/publishCourse/${courseId}`,
+    method: 'get'
+  })
+}
