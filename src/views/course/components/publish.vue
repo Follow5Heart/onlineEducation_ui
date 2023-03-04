@@ -64,7 +64,19 @@ export default {
     publish() {
       this.btnStatus = true
       publishCourseById(this.coursePublis.id).then(res => {
-        console.log(res, '1111111111111')
+        if (res.code === 20000) {
+          this.$message({
+            message: '发布成功',
+            type: 'success'
+          })
+          this.$parent.active = 3
+          setTimeout(() => {
+
+          }, 2000)
+          this.$router.push('/course/list')
+        } else {
+          this.$message.error(res.data.message)
+        }
       })
     }
   }

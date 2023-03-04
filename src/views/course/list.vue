@@ -248,6 +248,8 @@ export default {
 }
 </script>
 <style scoped>
-p{}
+p{
+  color:black
+}
 </style>
 

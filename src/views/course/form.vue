@@ -58,7 +58,7 @@ export default {
     width: 100%;
 }
 
-p{
+/* p{
     color: red;
 }
 p{
@@ -66,7 +66,7 @@ p{
 }
 p{
   color:rgb(241, 8, 137);
-}
+} */
 .box{
     height: 100px;
     width:100px;
