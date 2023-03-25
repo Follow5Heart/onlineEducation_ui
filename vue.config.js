@@ -29,15 +29,15 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: true, // process.env.NODE_ENV === 'development',
   productionSourceMap: false,
-  devServer: {
-    port: port,
-    open: true,
-    overlay: {
-      warnings: false,
-      errors: true
-    },
-    before: require('./mock/mock-server.js')
-  },
+  // devServer: {
+  //   port: port,
+  //   open: true,
+  //   overlay: {
+  //     warnings: false,
+  //     errors: true
+  //   },
+  //   before: require('./mock/mock-server.js')
+  // },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
@@ -119,5 +119,29 @@ module.exports = {
           config.optimization.runtimeChunk('single')
         }
       )
+  },
+  // 开发环境的转发配置（如果后端未启用API网关，需要在前端做对应服务访问的请求分发<API网关前移>）
+  devServer: {
+    hot: true,
+    open: true,
+    host: '0.0.0.0',
+    port: port,
+    proxy: {
+      '/service-edu': {
+        target: 'http://127.0.0.1:8110',
+        changeOrigin: true,
+        logLevel: 'debug'
+      },
+      '/service-file': {
+        target: 'http://127.0.0.1:8120',
+        changeOrigin: true,
+        logLevel: 'debug'
+      },
+      '/service-vod': {
+        target: 'http://127.0.0.1:8130',
+        changeOrigin: true,
+        logLevel: 'debug'
+      }
+    }
   }
 }
