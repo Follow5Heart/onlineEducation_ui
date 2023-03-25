@@ -35,7 +35,7 @@ export default {
   name: 'Import',
   data() {
     return {
-      uploadUrl: 'http://127.0.0.1:8110/edu/subject/batchImportExcel',
+      uploadUrl: 'http://127.0.0.1:8110/service-edu/edu/subject/batchImportExcel',
       importBtnDisabled: false
     }
   },

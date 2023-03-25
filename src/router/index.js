@@ -131,6 +131,13 @@ export const constantRoutes = [
         component: () => import('@/views/course/form'),
         meta: { title: '编辑课程' },
         hidden: true
+      },
+      {
+        path: 'chapter/:id',
+        name: 'CourseChapterEdit',
+        component: () => import('@/views/course/form'),
+        meta: { title: '编辑课程大纲' },
+        hidden: true
       }
     ]
   },

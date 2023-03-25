@@ -67,7 +67,7 @@
           :before-upload="beforeCoverUpload"
           :on-error="handleCoverError"
           class="cover-uploader"
-          action="http://127.0.0.1:8120/service-files/upload?module=cover"
+          action="http://127.0.0.1:8120/service-file/files/upload?module=cover"
         >
           <img v-if="courseInfo.cover" :src="courseInfo.cover">
           <i v-else class="el-icon-plus avatar-uploader-icon" />

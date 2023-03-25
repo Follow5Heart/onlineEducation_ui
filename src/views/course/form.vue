@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <span v-if="active===0" style="float:left width: 50px;" @click="backList"><i class="el-icon-arrow-left" />返回</span>
     <h2 style="text-align: center">发布新课程</h2>
     <div>
       <!-- 步骤导航 -->
@@ -25,7 +26,6 @@
 import Info from '@/views/course/components/info.vue'
 import Chapter from '@/views/course/components/Chapter/index.vue'
 import Publish from '@/views/course/components/publish.vue'
-import { create } from 'domain'
 export default {
   components: {
     Info,
@@ -39,13 +39,17 @@ export default {
     }
   },
   created() {
-    if (this.$route.params.id) {
-      this.fetchDataById(this.$route.params.id)
+    if (this.$route.name === 'CourseInfoEdit') {
+      this.active = 0
+      this.courseId = this.$route.params.id
+    } else if (this.$route.name === 'CourseChapterEdit') {
+      this.active = 1
+      this.courseId = this.$route.params.id
     }
   },
   methods: {
-    fetchDataById() {
-
+    backList() {
+      this.$router.push('/course/list')
     }
   }
 

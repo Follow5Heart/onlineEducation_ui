@@ -43,7 +43,7 @@
         <!-- 头像上传 -->
         <el-upload
           class="avatar-uploader"
-          action="http://127.0.0.1:8120/service-files/upload"
+          action="http://127.0.0.1:8120/service-file/files/upload"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :on-error="handleAvatarError"
@@ -98,7 +98,7 @@ export default {
               type: 'success'
             })
             setTimeout(() => {
-              this.$router.push('/Layout/list')
+              this.$router.push('/teacher/list')
             }, 500)
           } else {
             this.$message.error('保存失败')
@@ -115,7 +115,7 @@ export default {
             type: 'success'
           })
           setTimeout(() => {
-            this.$router.push('/Layout/list')
+            this.$router.push('/teacher/list')
           }, 500)
         } else {
           this.$message.error('更新失败')
