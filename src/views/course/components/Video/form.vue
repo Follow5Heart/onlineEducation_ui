@@ -57,7 +57,7 @@ export default {
       video: {
         sort: 0,
         free: false,
-        videSourceId: '',
+        videoSourceId: '',
         videoOriginalName: '',
         url: ''
       },
@@ -73,7 +73,7 @@ export default {
         checkChunkUploadedByResponse: function(chunk, message) {
           const objMessage = JSON.parse(message)
           if (objMessage.data.skipUpload) {
-            vm.video.vide0SourceId = objMessage.data.videoId
+            vm.video.videoSourceId = objMessage.data.videoId
             vm.video.url = objMessage.data.url
             vm.video.videoOriginalName = objMessage.data.filename
             return true
