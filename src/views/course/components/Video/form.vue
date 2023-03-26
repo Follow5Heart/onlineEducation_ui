@@ -52,7 +52,7 @@ export default {
   data() {
     const vm = this // 保存 Vue 实例的 this
     return {
-
+      currentFile: null,
       dialogVisible: false, // 是否显示对话框
       video: {
         sort: 0,
@@ -193,6 +193,7 @@ export default {
      * @param event
      */
     filesAdded(file, event) {
+      debugger
       if (this.$refs.uploader.uploader.files.length >= 1) {
         this.$message({
           message: '只能上传一个视频',
@@ -201,7 +202,9 @@ export default {
         this.$refs.uploader.uploader.removeFile(file)
         return
       }
-      this.computeMD5(file)
+      if (this.dialogTitle !== '编辑课时') {
+        this.computeMD5(file)
+      }
     },
     // 显示对话框
     open(chapterId, videoId) {
@@ -213,6 +216,22 @@ export default {
         getVideoById(videoId).then(response => {
           if (response.code === 20000) {
             this.video = response.data.items
+            // 回显视频列表
+            debugger
+            if (this.video.videoSourceId) {
+              // 通过文件信息，自己创建一个文件对象，添加到文件列表中
+              const fileName = this.video.videoOriginalName
+              const fileType = this.video.fileType
+              const fileSize = this.video.fileSize
+              const fileOptions = {
+                type: fileType,
+                lastModified: Date.now()
+              }
+              const file = new File([new ArrayBuffer(fileSize)], fileName, fileOptions)
+              this.$refs.uploader.uploader.addFile(file)
+              this.currentFile = file
+              file.pause()
+            }
           } else {
             this.$message({
               message: response.message,
@@ -235,6 +254,10 @@ export default {
         sort: 0,
         free: false
       }
+      // 清空文件列表
+      debugger
+      console.log(this.$refs.uploader.uploader)
+      this.$refs.uploader.uploader.removeFile(this.currentFile)
     },
 
     // 保存和更新
