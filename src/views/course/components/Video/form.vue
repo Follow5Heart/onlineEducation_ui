@@ -23,13 +23,16 @@
           class="uploader-example"
           @file-success="onFileSuccess"
           @file-added="filesAdded"
+          @file-removed="removeFile"
         >
           <uploader-unsupport />
           <uploader-btn :single="true" class="uploaderBtn1">选择视频</uploader-btn>
+          <el-button size="small" class="uploaderBtn2" @click="startUpload">上传</el-button>
           <uploader-list />
         </uploader>
-        <el-button @click="pause">暂停</el-button>
-        <el-button @click="start">恢复</el-button>
+
+        <!-- <el-button @click="pause">暂停</el-button>
+        <el-button @click="start">恢复</el-button> -->
 
       </el-form-item>
     </el-form>
@@ -47,11 +50,16 @@ import { saveVideo, updateVideo, getVideoById } from '@/api/video'
 
 export default {
   data() {
+    const vm = this // 保存 Vue 实例的 this
     return {
+
       dialogVisible: false, // 是否显示对话框
       video: {
         sort: 0,
-        free: false
+        free: false,
+        videSourceId: '',
+        videoOriginalName: '',
+        url: ''
       },
       dialogTitle: '新增课时',
       uploader_key: new Date().getTime(), // 这个用来刷新组件--解决不刷新页面连续上传的缓存上传数据（注：每次上传时，强制这个值进行更改---根据自己的实际情况重新赋值）
@@ -64,15 +72,13 @@ export default {
         // 服务器分片校验函数，秒传及断点续传基础
         checkChunkUploadedByResponse: function(chunk, message) {
           const objMessage = JSON.parse(message)
-
-          console.log('1111111', objMessage)
-          console.log('22222', chunk)
           if (objMessage.data.skipUpload) {
+            vm.video.vide0SourceId = objMessage.data.videoId
+            vm.video.url = objMessage.data.url
+            vm.video.videoOriginalName = objMessage.data.filename
             return true
           }
-          console.log('objMessage.data.skipUpload', objMessage.data.skipUpload)
-          console.log('objMessage.data.uploaded', objMessage.data.uploaded)
-          console.log((objMessage.data.uploaded || []).indexOf(chunk.offset + 1), '32323233')
+
           return (objMessage.data.uploaded || []).indexOf(chunk.offset + 1) >= 0
         }
 
@@ -81,11 +87,12 @@ export default {
   },
 
   methods: {
-    start() {
-      this.$refs.uploader.uploader.resume()
+    removeFile(file) {
+      console.log(file, '已经被移除')
     },
-    pause() {
-      this.$refs.uploader.uploader.pause()
+    // 开始上传
+    startUpload() {
+      this.$refs.uploader.uploader.resume()
     },
     onFileAdded(file) {
       console.log('... onFileAdded')
@@ -95,9 +102,6 @@ export default {
       console.log('... onFileProgress')
     },
     onFileSuccess(rootFile, file, response, chunk) {
-      console.log(response, '33333333333')
-      console.log(rootFile, '4444444')
-      console.log(chunk, '5555555555')
       const res = JSON.parse(response)
       // 如果服务端返回需要合并
       if (res.data.needMerge) {
@@ -107,8 +111,12 @@ export default {
           'contentType': rootFile.fileType,
           'filesize': rootFile.size
         }
-        mergeChunk(param).then(res => {
-
+        mergeChunk(param).then(response => {
+          // 合并完后，赋值
+          const res = JSON.parse(response)
+          this.video.videoSourceId = res.data.videoId
+          this.video.url = res.data.url
+          this.video.videoOriginalName = res.data.filename
         }).catch(e => {
           console.log('合并异常,重新发起请求,文件名为:', file.name)
           file.retry()
@@ -177,7 +185,7 @@ export default {
 
     computeMD5Success(md5, file) {
       file.uniqueIdentifier = md5// 把md5值作为文件的识别码
-      file.resume()// 开始上传
+      // file.resume()// 开始上传
     },
     /**
      * 添加文件后触发
@@ -185,6 +193,14 @@ export default {
      * @param event
      */
     filesAdded(file, event) {
+      if (this.$refs.uploader.uploader.files.length >= 1) {
+        this.$message({
+          message: '只能上传一个视频',
+          type: 'warning'
+        })
+        this.$refs.uploader.uploader.removeFile(file)
+        return
+      }
       this.computeMD5(file)
     },
     // 显示对话框
@@ -268,6 +284,11 @@ export default {
  }
  .uploaderBtn1{
   background-color: #409eff;
+  color: #ffffff;
+  border: 0;
+ }
+ .uploaderBtn2{
+  background-color: #00c14a;
   color: #ffffff;
   border: 0;
  }
