@@ -47,6 +47,7 @@
 import { mergeChunk } from '@/api/simpleUpload'
 import SparkMD5 from 'spark-md5'
 import { saveVideo, updateVideo, getVideoById } from '@/api/video'
+import { removeVideo } from '@/api/vod'
 
 export default {
   data() {
@@ -88,6 +89,19 @@ export default {
 
   methods: {
     removeFile(file) {
+      // if (!this.video.videoSourceId) {
+      //   return
+      // }
+
+      // // 删除视频
+      // removeVideo(this.video.videoSourceId).then(res => {
+      //   this.video.videoSourceId = ''
+      //   this.video.videoOriginalName = ''
+      //   // 删除完成之后直接进行更新操作
+      //   debugger
+      //   updateVideo(this.video)
+      //   this.$message.success(res.message)
+      // })
       console.log(file, '已经被移除')
     },
     // 开始上传
@@ -195,19 +209,22 @@ export default {
     filesAdded(file, event) {
       debugger
       if (this.$refs.uploader.uploader.files.length >= 1) {
-        this.$message({
-          message: '只能上传一个视频',
-          type: 'warning'
-        })
+        // this.$message({
+        //   message: '只能上传一个视频',
+        //   type: 'warning'
+        // })
         this.$refs.uploader.uploader.removeFile(file)
         return
       }
-      if (this.dialogTitle !== '编辑课时') {
-        this.computeMD5(file)
-      }
+      debugger
+      // if (this.dialogTitle !== '编辑课时') {
+
+      // }
+      this.computeMD5(file)
     },
     // 显示对话框
     open(chapterId, videoId) {
+      debugger
       this.dialogVisible = true
       this.video.chapterId = chapterId
 
@@ -230,7 +247,7 @@ export default {
               const file = new File([new ArrayBuffer(fileSize)], fileName, fileOptions)
               this.$refs.uploader.uploader.addFile(file)
               this.currentFile = file
-              file.pause()
+              // file.pause()
             }
           } else {
             this.$message({
@@ -239,6 +256,12 @@ export default {
             })
           }
         })
+      } else {
+        this.dialogTitle = '新增课时'
+      }
+      if (this.dialogVisible && this.dialogTitle === '新增课时') {
+        this.$refs.uploader.files = []
+        this.$refs.uploader.fileList = []
       }
     },
 
@@ -257,7 +280,9 @@ export default {
       // 清空文件列表
       debugger
       console.log(this.$refs.uploader.uploader)
-      this.$refs.uploader.uploader.removeFile(this.currentFile)
+      this.$refs.uploader.files = []
+      this.$refs.uploader.fileList = []
+      // this.$refs.uploader.uploader.removeFile(this.currentFile)
     },
 
     // 保存和更新

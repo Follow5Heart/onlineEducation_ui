@@ -141,6 +141,11 @@ module.exports = {
         target: 'http://127.0.0.1:8130',
         changeOrigin: true,
         logLevel: 'debug'
+      },
+      '/service-cms': {
+        target: 'http://127.0.0.1:8140',
+        changeOrigin: true,
+        logLevel: 'debug'
       }
     }
   }
